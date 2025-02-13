@@ -1,5 +1,5 @@
 const express=require('express');
-const person=require('./../Models/person')
+const person=require('./../Models/person');
 const router=express.Router();
 
 
@@ -65,6 +65,27 @@ router.get('/:workType',async(req,res)=>{
         console.log(err),
         res.status(500).json({messege:'Internal Error!'})
    }
+})
+
+router.post('/addAll',async(req,res)=>{
+    try{
+        const dataArr=req.body;
+
+    for(let i=0;i<dataArr.length;i++)
+    {
+        let data=dataArr[i];
+
+        let newPerson=person(data);
+
+        let response=await newPerson.save();
+    }
+    res.status(200).json({message:"saved Successfully!"});
+    }
+    catch(err)
+    {
+        console.log(err);
+        res.status(500).json({error:"Internal sever error!"});
+    }
 })
 
 router.delete('/:id',async(req,res)=>{

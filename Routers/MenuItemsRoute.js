@@ -48,6 +48,25 @@ router.put('/:id',async(req,res)=>{
 
 });
 
+router.post('/addAll',(req,res)=>{
+    try{
+        const dataArr=req.body;
+
+        dataArr.map(async (el)=>{
+            let data=el;
+
+            let newItem=new Menu(data);
+            let response=await newItem.save();
+        })
+        res.status(200).json({message:"Data Saved Successfully!"});
+    }
+    catch(err)
+    {
+        console.log(err);
+        res.status(500).json({error:"Internal server error"});
+    }
+})
+
 router.get('/:taste',async(req,res)=>{
     try{
         const tasteType=req.params.taste;
@@ -57,7 +76,7 @@ router.get('/:taste',async(req,res)=>{
             res.status(200).json(response);
             return;
         }
-        res.status(404).json({error:"Taste type not found!"})
+        res.status(404).json({error:"Taste type not found!"});
     }
     catch(err)
     {
